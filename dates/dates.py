@@ -36,6 +36,18 @@ def get_first_day(months_ago=1, format='%Y-%m-%d'):
     """This function rewinds the date back to the first day of the month from
     `months_ago` months ago.
 
+    Parameters
+    ----------
+    months_ago : int, default 1
+        The number of months to rewind the date back to.
+    format: str, default '%Y-%m-%d'
+        Format string for the date returned by the function.
+
+    Returns
+    -------
+    str
+        Returns the first day of the month from `months_ago` months ago as a
+        string (formatted according to `format`).
     """
 
     # Use get_last_day and replace day to 1

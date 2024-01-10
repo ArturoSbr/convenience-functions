@@ -16,3 +16,18 @@ def get_last_day(months_ago=1, format='%Y-%m-%d'):
 
     # Return
     return ret.strftime(format)
+
+
+# Function to rewind current date back to first day from `n` months ago
+def get_first_day(months_ago=1, format='%Y-%m-%d'):
+    """
+    This function rewinds the date back to the first day of the month from `m`
+    months ago.
+    """
+
+    ret = datetime.strptime(
+        get_last_day(months_ago=months_ago, format=format),
+        format
+    ).replace(day=1)
+
+    return ret.strftime(format)

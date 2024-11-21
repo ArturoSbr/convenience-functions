@@ -1,12 +1,57 @@
+"""Functions for backtesting models."""
+
 # Imports
 import numpy as np
+from typing import Union, List
 
 
 # Function that calculates goods and bads per threshold
-def backtest(y_true, proba, thr, ascending_proba=True):
+def backtest(
+    y_true: np.array,
+    proba: np.array,
+    thr: Union[List, np.array],
+    ascending_proba: bool = True
+):
+    """Backtest the probabilities predicted by a model.
 
+    This function splits the population into accepted and rejected groups for
+    each threshold passed in `thr`. It calculates additional metrics such as
+    the number and rate of goods and bads within each of the two groups.
+
+    Parameters
+    ----------
+    y_true: np.array
+        A numpy array of binary values (0 and 1), where 1 means that the i-th
+        observation is bad.
+    proba: np.array
+        A numpy array of probabilities predicted by the model to be
+        backtested. All probabilities in the array must be greater or equal to
+        zero and less than or equal to one.
+    thr: Union[List, np.array]
+        A list or numpy array of thresholds to be used to split the population
+        into accepted and rejected groups.
+    ascending_proba: bool (default True)
+        Set to True if higher probabilities indicate greater risk. Set to False
+        if higher probabilities indicate less risk.
+
+    Returns
+    -------
+    result: dict
+        A dictionary containing numpy arrays with the following keys:
+        - thr: The thresholds passed by the user.
+        - acc_n: Number of accepted observations for each threshold.
+        - acc_n0: Number of good observations in the accepted group.
+        - acc_n1: Number of bad observations in the accepted group.
+        - acc_rate0: Good rate in the accepted group.
+        - acc_rate1: Bad rate in the accepted group.
+        - rej_n: Number of rejected observations for each threshold.
+        - rej_n0: Number of good observations in the rejected group.
+        - rej_n1: Number of bad observations in the rejected group.
+        - rej_rate0: Good rate in the rejected group.
+        - rej_rate1: Bad rate in the rejected group.
+    """
     # Cast to np array
-    thr_array = np.asarray(thr)
+    thr = np.asarray(thr)
 
     # Declare masks
     if ascending_proba:
@@ -43,4 +88,3 @@ def backtest(y_true, proba, thr, ascending_proba=True):
         'rej_rate0': rej_r0,
         'rej_rate1': rej_r1
     }
-    
